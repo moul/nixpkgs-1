@@ -45,6 +45,9 @@ in
     silicon.curl # transfer a URL
     silicon.wget # The non-interactive network downloader.
     silicon.nextdns # nextdns
+    silicon.imagemagick
+    silicon.ghostscript
+
     # stable
     stable.procs # fancy version of `ps`
 
