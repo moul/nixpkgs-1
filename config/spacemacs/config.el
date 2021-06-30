@@ -561,7 +561,7 @@ before packages are loaded."
      ("gopls.gofumpt" t t)
 
      ;; experimental
-     ;; ("gopls.experimentalWorkspaceModule" t t)
+     ("gopls.experimentalWorkspaceModule" t t)
      ))
 
   ;; use ripgrep as default helm ag search
@@ -605,6 +605,7 @@ before packages are loaded."
   (setq all-the-icons-ivy-rich-color-icon t)
   (setq inhibit-compacting-font-caches t)
   (setq all-the-icons-ivy-rich-project t)
+
 
   ;; doom-org
   ;; Corrects (and improves) org-mode's native fontification.
