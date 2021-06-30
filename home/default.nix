@@ -83,7 +83,7 @@ in
     ]))
 
     # go tools
-    silicon.gopls
+    silicon.gopls # see overlay
     silicon.delve
     silicon.golangci-lint
     silicon.go2nix
@@ -97,6 +97,7 @@ in
     cachix # adding/managing alternative binary caches hosted by Cachix
     lorri # improve `nix-shell` experience in combination with `direnv`
     niv # easy dependency management for nix projects
+    nix-prefetch
     nix-prefetch-git
 
     # Platform specific tools
