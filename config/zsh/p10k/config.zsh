@@ -40,6 +40,13 @@
   local cyan='6'
   local white='7'
 
+
+  function prompt_my_nixshell() {
+      if [ "$name" = "nix-shell" ]; then
+          p10k segment -f magenta -i '🥷' -t "<${name}>"
+      fi
+  }
+
   function p10k-on-pre-prompt() {
       p10k display '1'=show '2/left/dir'=hide '2/left/time'=hide
   }
@@ -58,7 +65,7 @@
 
   # Right prompt segments.
   typeset -g POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(
-      command_execution_time go_version
+      command_execution_time go_version my_nixshell
   )
 
   # other
