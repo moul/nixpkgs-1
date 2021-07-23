@@ -11,6 +11,7 @@ let
     export TERM=xterm-emacs
     ${pkgs.emacsGcc}/bin/emacs $@
   '';
+
 in
 {
   programs.tmux.enable = true;
@@ -66,6 +67,13 @@ in
     '';
 
     initExtra = ''
+    # @HOTFIX: set path to local/bin when on i386
+    if [ "$(arch)" = "i386" ]; then
+       export PATH="/usr/local/bin:$PATH"
+       export PATH="/usr/local/opt/openjdk/bin:$PATH" # brew java
+    fi
+
+
     # bindkey
     bindkey "\e[1;3D" backward-word # left word
     bindkey "\e[1;3C" forward-word # right word
@@ -95,6 +103,9 @@ in
     '';
 
     shellAliases = with pkgs; {
+      # switch on rosetta shell
+      rosetta-zsh = "${stable.zsh}/bin/zsh";
+
       # kitty alias
       ssh = "${kitty}/bin/kitty +kitten ssh";
 
