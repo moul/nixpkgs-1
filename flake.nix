@@ -159,7 +159,7 @@
           final: prev: {
             # pkgs
             spacemacs = inputs.spacemacs;
-            # emacs = final.silicon.emacs;
+            emacs = final.silicon.emacs;
             emacsGcc = (import emacs-overlay final prev).emacsGcc;
             zsh = final.silicon.zsh;
             kitty = final.silicon.kitty.overrideDerivation (oldAttrs: {

@@ -79,7 +79,6 @@ in
       pylint
       yapf
       setuptools
-      python-language-server
     ]))
 
     # go tools
