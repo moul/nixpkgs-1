@@ -37,6 +37,7 @@
       defaultSystems = flake-utils.lib.defaultSystems;
       nixpkgsConfig = { system }: with inputs; {
         config = {
+          allowUnsupportedSystem = true;
           allowUnfree = true;
           android_sdk.accept_license = true;
         };
@@ -156,17 +157,19 @@
         (android-nixpkgs.overlay)
         (
           final: prev: {
+            # pkgs
             spacemacs = inputs.spacemacs;
             # emacs = final.silicon.emacs;
             emacsGcc = (import emacs-overlay final prev).emacsGcc;
             zsh = final.silicon.zsh;
-            android-sdk = (import android-nixpkgs) { inherit pkgs; };
             kitty = final.silicon.kitty.overrideDerivation (oldAttrs: {
               CFLAGS = if prev.stdenv.isDarwin
                        then "-Wno-deprecated-declarations -arch arm64 -target arm64-apple-macos11"
                        else "";
             });
-            # androidSdk = final.silicon.androidenv.androidPkgs_9_0.androidsdk;
+
+            # inputs
+            android-sdk = (import android-nixpkgs) { inherit pkgs; };
 
             # stable release (usually package here are broken upstream)
             cachix = final.stable.cachix;
