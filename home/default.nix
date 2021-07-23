@@ -69,7 +69,7 @@ in
     # js
     silicon.nodejs-16_x
     silicon.yarn
-    silicon.watchman
+    watchman
 
     # python
     (silicon.python3.withPackages (p: with p; [
@@ -128,18 +128,18 @@ in
   };
 
   # adnroid
-  android-sdk = {
-    enable = true;
-    path = "${home_dir}/.local/share/android_sdk";
-    packages = sdk: with sdk; [
-      build-tools-30-0-2
-      cmdline-tools-latest
-      emulator
-      ndk-bundle
-      platforms-android-30
-      sources-android-30
-    ];
-  };
+  # android-sdk = {
+  #   enable = true;
+  #   path = "${home_dir}/.local/share/android_sdk";
+  #   packages = sdk: with sdk; [
+  #     build-tools-30-0-2
+  #     cmdline-tools-latest
+  #     emulator
+  #     ndk-bundle
+  #     platforms-android-30
+  #     sources-android-30
+  #   ];
+  # };
 
   # Additional Path
   home.sessionPath = [
@@ -155,9 +155,13 @@ in
     TERMINFO_DIRS = "${profile_dir}/share/terminfo";
 
     # flags
-    # LDFLAGS="-L${profile_dir}/lib";
     CFLAGS="-I${profile_dir}/include";
     CPPFLAGS="-I${profile_dir}/include";
+
+  } // lib.optionals pkgs.stdenv.isDarwin {
+    # android studio path
+    ANDROID_HOME="${home_dir}/Library/Android/sdk";
+    ANDROID_SDK_ROOT="${home_dir}/Library/Android/sdk";
   };
 
   # lang
