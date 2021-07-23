@@ -47,25 +47,40 @@
       fi
   }
 
+  function prompt_my_arch() {
+      if [ "$(arch)" != "$(uname -p)" ]; then
+          p10k segment -f megenta -t "$(arch)"
+      fi
+  }
+
   function p10k-on-pre-prompt() {
-      p10k display '1'=show '2/left/dir'=hide '2/left/time'=hide
+      p10k display '1'=show \
+           '2/left/dir'=hide \
+           '2/left/time'=hide \
+           '2/left/my_nixshell'=hide \
+           '2/left/my_arch'=hide
   }
   function p10k-on-post-prompt() {
-      p10k display '1'=hide '2/left/dir'=show '2/left/time'=show
+      p10k display '1'=hide \
+           '2/left/dir'=show \
+           '2/left/time'=show \
+           '2/left/my_nixshell'=show \
+           '2/left/my_arch'=show
+
   }
 
   # Left prompt segments.
   typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
       ## LINE 1 ##
-      time dir vcs context
+      time dir my_nixshell my_arch vcs context
 
       ## LINE 2 ##
-      newline time dir prompt_char
+      newline time dir my_nixshell my_arch prompt_char
   )
 
   # Right prompt segments.
   typeset -g POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(
-      command_execution_time go_version my_nixshell
+      command_execution_time go_version
   )
 
   # other
