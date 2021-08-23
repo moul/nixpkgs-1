@@ -14,7 +14,7 @@ all:
 	@echo "switch.macbook"
 	@echo "switch.bot"
 
-switch.osx_bootstrap: result/sw/bin/darwin-rebuild
+switch.bootstrap: result/sw/bin/darwin-rebuild
 	./result/sw/bin/darwin-rebuild switch  --verbose --flake .#bootstrap
 switch.macbook: result/sw/bin/darwin-rebuild
 	./result/sw/bin/darwin-rebuild switch --verbose --flake .#macbook
@@ -37,6 +37,9 @@ switch.cloud:
 	./result/activate switch --verbose --flake .#bot
 
 endif # end linux
+
+gc:
+	./result/sw/bin/nix-collect-garbage
 
 fast-update: update.nix update.zsh update.misc # fast update ignore emacs update
 update: update.nix update.emacs update.zsh update.misc

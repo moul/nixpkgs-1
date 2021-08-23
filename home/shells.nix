@@ -70,7 +70,7 @@ in
     # @HOTFIX: set path to local/bin when on i386
     if [ "$(arch)" = "i386" ]; then
        export PATH="/usr/local/bin:$PATH"
-       export PATH="/usr/local/opt/openjdk/bin:$PATH" # brew java
+       export PATH="/usr/local/opt/openjdk@8/bin:$PATH" # brew java
     fi
 
 

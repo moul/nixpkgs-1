@@ -47,6 +47,7 @@ in
     silicon.nextdns # nextdns
     silicon.imagemagick
     silicon.ghostscript
+    silicon.rclone
 
     # stable
     stable.procs # fancy version of `ps`
@@ -127,18 +128,18 @@ in
   };
 
   # adnroid
-  # android-sdk = {
-  #   enable = true;
-  #   path = "${home_dir}/.local/share/android_sdk";
-  #   packages = sdk: with sdk; [
-  #     build-tools-30-0-2
-  #     cmdline-tools-latest
-  #     emulator
-  #     ndk-bundle
-  #     platforms-android-30
-  #     sources-android-30
-  #   ];
-  # };
+  android-sdk = {
+    enable = true;
+    path = "${home_dir}/.local/share/android_sdk";
+    packages = sdk: with sdk; [
+      build-tools-30-0-2
+      cmdline-tools-latest
+      emulator
+      ndk-bundle
+      platforms-android-30
+      sources-android-30
+    ];
+  };
 
   # Additional Path
   home.sessionPath = [
