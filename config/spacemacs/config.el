@@ -126,8 +126,7 @@ This function should only modify configuration layer settings."
    ;; To use a local version of a package, use the `:location' property:
    ;; '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages '(all-the-icons-ivy-rich
-                                      highlight-indent-guides
+   dotspacemacs-additional-packages '(highlight-indent-guides
                                       org-super-agenda)
 
    ;; A list of packages that cannot be updated.
@@ -599,13 +598,6 @@ before packages are loaded."
   (add-hook 'swift-mode-hook #'lsp)
 
   ;; ivy
-  ;; ivy all the icons
-  (all-the-icons-ivy-rich-mode 1)
-
-  (setq all-the-icons-ivy-rich-color-icon t)
-  (setq inhibit-compacting-font-caches t)
-  (setq all-the-icons-ivy-rich-project t)
-
 
   ;; doom-org
   ;; Corrects (and improves) org-mode's native fontification.

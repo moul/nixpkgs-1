@@ -48,6 +48,8 @@ in
     silicon.imagemagick
     silicon.ghostscript
     silicon.rclone
+    silicon.miniserve
+    silicon.evans
 
     # stable
     stable.procs # fancy version of `ps`
@@ -112,7 +114,7 @@ in
         ndkVersion = "21.3.6528147"; # WARNING: 22.0.7026061 is broken.
       };
       buildGoModule = silicon.buildGoModule;
-      xcodeWrapperArgs = { version = "12.5"; };
+      xcodeWrapperArgs = { version = "12.5.1"; };
     })
   ] ++ lib.optionals stdenv.isLinux [
     docker
