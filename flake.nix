@@ -67,9 +67,14 @@
           ];
       };
 
-      linuxCommonConfig = {
+      linuxCommonConfig = with self.homeManagerModules; {
         imports = [
-          homeManagerConfig
+          ./home
+          misc.truecolor
+          programs.mykitty
+          programs.kitty.extras
+          programs.zsh.antibody
+          android-nixpkgs.hmModule
           ./linux
         ];
       };
@@ -135,8 +140,7 @@
 	      homeDirectory = "/home/gfanton";
 	      username = "gfanton";
 	      configuration = {
-	        imports = [ linuxCommonConfig ];
-	        nixpkgs = nixpkgsConfig { mysystem = "x86_64-linux"; };
+	        nixpkgs = nixpkgsConfig { system = "x86_64-linux"; };
 	      };
        };
 
