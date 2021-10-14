@@ -46,10 +46,14 @@ in
     silicon.wget # The non-interactive network downloader.
     silicon.nextdns # nextdns
     silicon.imagemagick
+    silicon.ffmpeg
     silicon.ghostscript
     silicon.rclone
-    silicon.miniserve
+    # silicon.miniserve
     silicon.evans
+    silicon.graphviz
+    silicon.wireguard
+    silicon.srm
 
     # stable
     stable.procs # fancy version of `ps`
@@ -83,8 +87,10 @@ in
       yapf
       setuptools
     ]))
+    silicon.pipenv
 
     # go tools
+    silicon.gofumpt
     silicon.gopls # see overlay
     silicon.delve
     silicon.golangci-lint
@@ -114,7 +120,7 @@ in
         ndkVersion = "21.3.6528147"; # WARNING: 22.0.7026061 is broken.
       };
       buildGoModule = silicon.buildGoModule;
-      xcodeWrapperArgs = { version = "12.5.1"; };
+      xcodeWrapperArgs = { version = "13.0"; };
     })
   ] ++ lib.optionals stdenv.isLinux [
     docker
@@ -126,7 +132,7 @@ in
     enable = true;
     goPath = "go";
     goBin = ".local/bin";
-    package = pkgs.silicon.go_1_16;
+    package = pkgs.silicon.go_1_17;
   };
 
   # adnroid
