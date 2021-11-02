@@ -3,7 +3,7 @@
 
   inputs = {
     # channel
-    nixpkgs = { url = "github:nixos/nixpkgs/nixos-unstable"; };
+    nixpkgs = { url = "github:nixos/nixpkgs/master"; };
     nixpkgs-master = { url = "github:nixos/nixpkgs/master"; };
     nixpkgs-stable-darwin = { url = "github:nixos/nixpkgs/nixpkgs-20.09-darwin"; };
     nixos-stable = { url = "github:nixos/nixpkgs/nixos-20.09"; };
@@ -27,7 +27,7 @@
     emacs-overlay =  { url = "github:nix-community/emacs-overlay"; };
 
     # zsh_plugins
-    fast-syntax-highlighting = { url = "github:zdharma/fast-syntax-highlighting"; flake = false; };
+    fast-syntax-highlighting = { url = "github:zdharma-continuum/fast-syntax-highlighting"; flake = false; };
     fzf-tab = { url = "github:Aloxaf/fzf-tab"; flake = false; };
     powerlevel10k = { url = "github:romkatv/powerlevel10k"; flake = false; };
   };
@@ -37,7 +37,6 @@
       defaultSystems = flake-utils.lib.defaultSystems;
       nixpkgsConfig = { system }: with inputs; {
         config = {
-          allowUnsupportedSystem = true;
           allowUnfree = true;
           android_sdk.accept_license = true;
         };

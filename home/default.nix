@@ -30,7 +30,6 @@ in
     # stable.bandwhich # display current network utilization by process
 
     # pkgs silicon
-    silicon.asciinema # Terminal session recorder
     silicon.tmate # instant terminal sharing
     silicon.fd # fancy version of `find`
     silicon.most
@@ -44,16 +43,13 @@ in
     silicon.ripgrep # better version of grep
     silicon.curl # transfer a URL
     silicon.wget # The non-interactive network downloader.
-    silicon.nextdns # nextdns
     silicon.imagemagick
     silicon.ffmpeg
     silicon.ghostscript
     silicon.rclone
-    # silicon.miniserve
+    silicon.miniserve
     silicon.evans
     silicon.graphviz
-    silicon.wireguard
-    silicon.srm
 
     # stable
     stable.procs # fancy version of `ps`
@@ -113,15 +109,6 @@ in
     silicon.libffi
     silicon.libffi.dev
     silicon.cocoapods
-    silicon.jazzy
-    (silicon.gomobile.override {
-      androidPkgs = pkgs.androidenv.composeAndroidPackages {
-        includeNDK = true;
-        ndkVersion = "21.3.6528147"; # WARNING: 22.0.7026061 is broken.
-      };
-      buildGoModule = silicon.buildGoModule;
-      xcodeWrapperArgs = { version = "13.0"; };
-    })
   ] ++ lib.optionals stdenv.isLinux [
     docker
     docker-compose

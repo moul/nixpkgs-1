@@ -1,7 +1,7 @@
 UNAME := $(shell uname)
 
 # Channels
-NIX_CHANNELS := nixos-stable nixpkgs-silicon-darwin nixpkgs-stable-darwin nixpkgs-master nixpkgs
+NIX_CHANNELS := nixpkgs nixos-stable nixpkgs-stable-darwin
 HOME_CHANNELS := home-manager darwin
 EMACS_CHANNELS := spacemacs emacs-overlay
 ZSH_CHANNELS := fast-syntax-highlighting fzf-tab powerlevel10k
