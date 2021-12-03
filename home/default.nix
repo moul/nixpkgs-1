@@ -50,6 +50,7 @@ in
     silicon.miniserve
     silicon.evans
     silicon.graphviz
+    silicon.protobuf
 
     # stable
     stable.procs # fancy version of `ps`
@@ -143,6 +144,8 @@ in
 
   # Additional env
   home.sessionVariables = {
+    LC_ALL = "en_US.UTF-8";
+
     EDITOR = "${pkgs.emacsGcc}/bin/emacsclient -nw";
 
     # path
@@ -160,20 +163,7 @@ in
   };
 
   # lang
-  home.language = {
-    base = "en_US.UTF-8";
-    address = "en_US.UTF-8";
-    collate = "en_US.UTF-8";
-    ctype = "en_US.UTF-8";
-    measurement = "en_US.UTF-8";
-    messages = "en_US.UTF-8";
-    monetary = "en_US.UTF-8";
-    name = "en_US.UTF-8";
-    numeric = "en_US.UTF-8";
-    paper = "en_US.UTF-8";
-    telephone = "en_US.UTF-8";
-    time = "en_US.UTF-8";
-  };
+  home.language.base = "en_US.UTF-8";
 
   # manual
   manual.manpages.enable = true;
