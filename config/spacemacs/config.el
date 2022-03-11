@@ -43,7 +43,7 @@ This function should only modify configuration layer settings."
 
      auto-completion
      better-defaults
-     helm
+     ;; helm
      spacemacs-editing
      (ivy :variables ivy-enable-advanced-buffer-information t)
 

@@ -39,18 +39,9 @@ in
     silicon.tree # list contents of directories in a tree-like format.
     silicon.coreutils
     silicon.jq
-    silicon.mage # A Make/Rake-like Build Tool Using Go
     silicon.ripgrep # better version of grep
     silicon.curl # transfer a URL
     silicon.wget # The non-interactive network downloader.
-    silicon.imagemagick
-    silicon.ffmpeg
-    silicon.ghostscript
-    silicon.rclone
-    silicon.miniserve
-    silicon.evans
-    silicon.graphviz
-    silicon.protobuf
 
     # stable
     stable.procs # fancy version of `ps`
@@ -64,6 +55,10 @@ in
 
     # antibody
     silicon.antibody
+
+    # rustc
+    silicon.rustc
+    silicon.cargo
 
     # ruby
     (silicon.ruby_2_7.withPackages (ps: [
@@ -124,18 +119,18 @@ in
   };
 
   # adnroid
-  android-sdk = {
-    enable = true;
-    path = "${home_dir}/.local/share/android_sdk";
-    packages = sdk: with sdk; [
-      build-tools-30-0-2
-      cmdline-tools-latest
-      emulator
-      ndk-bundle
-      platforms-android-30
-      sources-android-30
-    ];
-  };
+  # android-sdk = {
+  #   enable = true;
+  #   path = "${home_dir}/.local/share/android_sdk";
+  #   packages = sdk: with sdk; [
+  #     build-tools-30-0-2
+  #     cmdline-tools-latest
+  #     emulator
+  #     ndk-bundle
+  #     platforms-android-30
+  #     sources-android-30
+  #   ];
+  # };
 
   # Additional Path
   home.sessionPath = [
