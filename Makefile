@@ -34,7 +34,7 @@ all:
 	@echo "switch.cloud"
 
 switch.cloud:
-		nix build .#cloud.activationPackage
+	nix build .#cloud.activationPackage
 	./result/activate switch --verbose --flake .#bot
 
 endif # end linux

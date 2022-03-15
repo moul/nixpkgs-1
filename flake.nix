@@ -140,6 +140,7 @@
 	      homeDirectory = "/home/gfanton";
 	      username = "gfanton";
 	      configuration = {
+	        imports = [ linuxCommonConfig ];
 	        nixpkgs = nixpkgsConfig { system = "x86_64-linux"; };
 	      };
        };

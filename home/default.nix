@@ -118,20 +118,6 @@ in
     package = pkgs.silicon.go_1_17;
   };
 
-  # adnroid
-  # android-sdk = {
-  #   enable = true;
-  #   path = "${home_dir}/.local/share/android_sdk";
-  #   packages = sdk: with sdk; [
-  #     build-tools-30-0-2
-  #     cmdline-tools-latest
-  #     emulator
-  #     ndk-bundle
-  #     platforms-android-30
-  #     sources-android-30
-  #   ];
-  # };
-
   # Additional Path
   home.sessionPath = [
     "${home_dir}/.local/bin"
@@ -150,11 +136,6 @@ in
     # flags
     CFLAGS="-I${profile_dir}/include";
     CPPFLAGS="-I${profile_dir}/include";
-
-  } // lib.optionals pkgs.stdenv.isDarwin {
-    # android studio path
-    ANDROID_HOME="${home_dir}/Library/Android/sdk";
-    ANDROID_SDK_ROOT="${home_dir}/Library/Android/sdk";
   };
 
   # lang
@@ -224,10 +205,10 @@ in
     hashKnownHosts = true;
   };
 
-  programs.gpg = {
-    homedir = "${config.xdg.dataHome}/gnupg";
-    enable = true;
-  };
+  # programs.gpg = {
+  #   homedir = "${config.xdg.dataHome}/gnupg";
+  #   enable = true;
+  # };
 
   # link aspell config
   home.file.".aspell.config" = with pkgs; {
