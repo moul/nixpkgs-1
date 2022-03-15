@@ -14,7 +14,16 @@ let
 
 in
 {
-  programs.tmux.enable = true;
+  programs.tmux = {
+    enable = true;
+    newSession = true;
+    clock24 = true;
+    historyLimit = 5000;
+    extraConfig = ''
+      bind '"' split-window -c "#{pane_current_path}"
+      bind % split-window -h -c "#{pane_current_path}"
+    '';
+  };
 
   # fzf - a command-line fuzzy finder.
   programs.fzf = {
