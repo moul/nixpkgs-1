@@ -4,6 +4,7 @@ let
   home_dir = "${config.home.homeDirectory}";
   profile_dir = "${config.home.profileDirectory}";
   spacemacsd = "${lib.cleanSource ../config/spacemacs}";
+  btopd = "${lib.cleanSource ../config/btop}";
 in
 {
   # Import config broken out into files
@@ -24,12 +25,12 @@ in
   home.packages = with pkgs; [
     # Some basics
     mosh # wrapper for `ssh` that better and not dropping connections
-    htop # fancy version of `top`
     unrar # extract RAR archives
     exa # fancy version of `ls`
     # stable.bandwhich # display current network utilization by process
 
     # pkgs silicon
+    silicon.btop # fancy version of `top`
     silicon.tmate # instant terminal sharing
     silicon.fd # fancy version of `find`
     silicon.most
@@ -66,7 +67,7 @@ in
     ]))
 
     # js
-    silicon.nodejs-16_x
+    mynodejs
     silicon.yarn
     watchman
 
@@ -120,7 +121,10 @@ in
 
   # Additional Path
   home.sessionPath = [
+    # local bin folder
     "${home_dir}/.local/bin"
+    # npm bin folder
+    "${config.xdg.dataHome}/node_modules/bin"
   ];
 
   # Additional env
@@ -168,10 +172,6 @@ in
     nix-direnv.enable = true;
   };
 
-  # Htop
-  # https://rycee.gitlab.io/home-manager/options.html#opt-programs.htop.enable
-  programs.htop.enable = true;
-
   # Zoxide, a faster way to navigate the filesystem
   # https://github.com/ajeetdsouza/zoxide
   # https://rycee.gitlab.io/home-manager/options.html#opt-programs.zoxide.enable
@@ -186,6 +186,17 @@ in
   home.file.".spacemacs.d" = {
    source = spacemacsd;
    recursive = true;
+  };
+
+  home.file."/.config/btop" = {
+   source = btopd;
+   recursive = true;
+  };
+
+  home.file.".npmrc" = with pkgs; {
+    source = writeText "npmrc" ''
+    prefix=${config.xdg.dataHome}/node_modules
+    '';
   };
 
   programs.emacs = {

@@ -165,6 +165,7 @@
             spacemacs = inputs.spacemacs;
             emacs = final.silicon.emacs;
             emacsGcc = (import emacs-overlay final prev).emacsGcc;
+            mynodejs = final.silicon.nodejs-16_x;
             zsh = final.silicon.zsh;
             kitty = final.silicon.kitty.overrideDerivation (oldAttrs: {
               CFLAGS = if prev.stdenv.isDarwin

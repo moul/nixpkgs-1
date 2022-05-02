@@ -11,7 +11,6 @@ let
     export TERM=xterm-emacs
     ${pkgs.emacsGcc}/bin/emacs $@
   '';
-
 in
 {
   programs.tmux = {
@@ -75,41 +74,60 @@ in
     fi
     '';
 
-    initExtra = ''
-    # @HOTFIX: set path to local/bin when on i386
-    if [ "$(arch)" = "i386" ]; then
-       export PATH="/usr/local/bin:$PATH"
-       export PATH="/usr/local/opt/openjdk@8/bin:$PATH" # brew java
-    fi
+    initExtra = let
+      linux = ''
+      # -- linux specific config
+      # -- linux end
+      '';
 
+      darwin = ''
+      # -- darwin specific config
+      # -- darwin end
+      '';
 
-    # bindkey
-    bindkey "\e[1;3D" backward-word # left word
-    bindkey "\e[1;3C" forward-word # right word
+      default = ''
+      # -- default config
 
-    ## extra z config
+      # @HOTFIX: set path to local/bin when on i386
+      if [ "$(arch)" = "i386" ]; then
+         export PATH="/usr/local/bin:$PATH"
+         export PATH="/usr/local/opt/openjdk@8/bin:$PATH" # brew java
+      fi
 
-    # Do menu-driven completion.
-    zstyle ":completion:*:git-checkout:*" sort false
-    zstyle ':completion:*:descriptions' format '[%d]'
-    zstyle ':completion:*' list-colors ''${(s.:.)LS_COLORS}
+      # bindkey
+      bindkey "\e[1;3D" backward-word # left word
+      bindkey "\e[1;3C" forward-word # right word
 
-    ## fzf tab
+      ## extra z config
 
-    # cat
-    zstyle ':fzf-tab:complete:(cat|bat):*' fzf-preview '\
-           ([ -f $realpath ] && ${pkgs.bat}/bin/bat --color=always --style=header,grid --line-range :500 $realpath) \
-            || ${pkgs.exa}/bin/exa --color=always --tree --level=1 $realpath'
+      # Do menu-driven completion.
+      zstyle ":completion:*:git-checkout:*" sort false
+      zstyle ':completion:*:descriptions' format '[%d]'
+      zstyle ':completion:*' list-colors ''${(s.:.)LS_COLORS}
 
-    # ls
-    zstyle ':fzf-tab:complete:cd:*' fzf-preview '${pkgs.exa}/bin/exa --color=always --tree --level=1 $realpath'
+      ## fzf tab
 
-    # ps/kill
-    # give a preview of commandline arguments when completing `kill`
-    zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm -w -w"
-    zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-preview '[[ $group == "[process ID]" ]] && ps --pid=$word -o cmd --no-headers -w -w'
-    zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-flags --preview-window=down:3:wrap
-    '';
+      # cat
+      zstyle ':fzf-tab:complete:(cat|bat):*' fzf-preview '\
+             ([ -f $realpath ] && ${pkgs.bat}/bin/bat --color=always --style=header,grid --line-range :500 $realpath) \
+              || ${pkgs.exa}/bin/exa --color=always --tree --level=1 $realpath'
+
+      # ls
+      zstyle ':fzf-tab:complete:cd:*' fzf-preview '${pkgs.exa}/bin/exa --color=always --tree --level=1 $realpath'
+
+      # ps/kill
+      # give a preview of commandline arguments when completing `kill`
+      zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm -w -w"
+      zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-preview '[[ $group == "[process ID]" ]] && ps --pid=$word -o cmd --no-headers -w -w'
+      zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-flags --preview-window=down:3:wrap
+
+      # -- default end
+      '';
+
+      block = [default]
+       ++ lib.optionals pkgs.stdenv.isDarwin [darwin]
+       ++ lib.optionals pkgs.stdenv.isLinux [linux];
+    in lib.concatStringsSep "\n" block;
 
     shellAliases = with pkgs; {
       # switch on rosetta shell
@@ -123,13 +141,17 @@ in
       cat = "${silicon.bat}/bin/bat";
       du = "${du-dust}/bin/dust";
       g = "${silicon.gitAndTools.git}/bin/git";
-      ls = "${exa}/bin/exa";
       rg = "${silicon.ripgrep }/bin/rg --column --line-number --no-heading --color=always --ignore-case";
+      ps = "${stable.procs}/bin/procs";
+      npmadd = "${mynodejs}/bin/npm install --global";
+      htop = "${silicon.btop}/bin/btop";
+
+      # list dir
+      ls = "${exa}/bin/exa";
       l = "ls -l --icons";
-      la = "l -a --icons";
+      la = "l -a";
       ll = "ls -lhmbgUFH --git --icons";
       lla = "ll -a";
-      ps = "${stable.procs}/bin/procs";
 
       # nix
       config = "make -C ${config.home.homeDirectory}/nixpkgs";
