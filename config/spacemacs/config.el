@@ -522,6 +522,7 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; packages
   (push "~/.spacemacs.d/packages/pretty-magit/" load-path)
   (push "~/.spacemacs.d/packages/capnp-mode/" load-path)
+  (push "~/.spacemacs.d/packages/ansi-mode/" load-path)
   (push "~/.spacemacs.d/packages/framemove/" load-path)
   )
 
@@ -647,6 +648,30 @@ before packages are loaded."
   ;; capn
   (require 'capnp-mode)
   (add-to-list 'auto-mode-alist '("\\.capnp\\'" . capnp-mode))
+
+  ;; ansi-mode
+  (require 'ansi-color)
+  (define-minor-mode ansi-color-mode
+    "..."
+    :init-value nil
+    :global nil
+    :group 'ansi-color
+    :lighter " ansimode"
+    :keymap nil
+    (let ((old-buffer (current-buffer))
+          (temp-buffer (concat "*" (buffer-name) "*")))
+      (with-current-buffer (get-buffer-create temp-buffer)
+        (barf-if-buffer-read-only)
+        (erase-buffer)
+        (save-excursion
+          (insert-buffer-substring old-buffer))
+        (switch-to-buffer temp-buffer t)
+        (ansi-color-apply-on-region 1 (buffer-size))
+        (kill-buffer old-buffer)
+        (delete-trailing-whitespace)
+        (end-of-buffer))))
+  (add-to-list 'auto-mode-alist '("\\.ansi\\'" . ansi-color-mode))
+
 
   ;; Projectile
 

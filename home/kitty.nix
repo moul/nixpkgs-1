@@ -12,10 +12,10 @@ let
   '';
 
   stdin-emacsclient = pkgs.writeShellScriptBin "semacs" ''
-    TMP="$(mktemp /tmp/stdin-XXX)"
-    cat > $TMP
-    ${xterm-emacsclient}/bin/xemacs -t $TMP
-    rm $TMP
+    TMP="$(mktemp /tmp/stdin-XXXX)"
+    cat > $TMP.ansi
+    ${xterm-emacsclient}/bin/xemacs -t $TMP.ansi
+    rm $TMP*
   '';
 
   magit-emacsclient = pkgs.writeShellScriptBin "magit" ''
