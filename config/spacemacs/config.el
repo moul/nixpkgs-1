@@ -99,7 +99,6 @@ This function should only modify configuration layer settings."
            rust-backend 'lsp)
 
      html
-
      emacs-lisp
      python
 
@@ -109,6 +108,7 @@ This function should only modify configuration layer settings."
      markdown
      lsp
      protobuf
+     graphql
      swift
 
      ;; cool stuff
