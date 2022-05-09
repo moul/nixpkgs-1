@@ -164,7 +164,7 @@
             # pkgs
             spacemacs = inputs.spacemacs;
             emacs = final.silicon.emacs;
-            emacsGcc = (import emacs-overlay final prev).emacsGcc;
+            emacsGcc = (import emacs-overlay final prev).emacsNativeComp;
             mynodejs = final.silicon.nodejs-16_x;
             zsh = final.silicon.zsh;
             kitty = final.silicon.kitty.overrideDerivation (oldAttrs: {

@@ -91,7 +91,7 @@ in
     silicon.vgo2nix
     # exclude bundle
     (silicon.gotools.overrideDerivation (oldAttrs: {
-      excludedPackages = oldAttrs.excludedPackages + "\\|\\(bundle\\)";
+      excludedPackages = oldAttrs.excludedPackages ++ ["bundle"];
     }))
 
     # Useful nix related tools
