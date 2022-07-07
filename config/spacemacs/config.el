@@ -73,7 +73,6 @@ This function should only modify configuration layer settings."
 
      version-control
      git
-     github
      tmux
      nixos
 

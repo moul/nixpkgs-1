@@ -67,12 +67,11 @@ in
     ]))
 
     # js
-    mynodejs
+    silicon.nodejs-16_x
     silicon.yarn
-    watchman
 
     # python
-    (silicon.python3.withPackages (p: with p; [
+    (silicon.python39.withPackages (p: with p; [
       virtualenv
       pip
       mypy
@@ -82,13 +81,37 @@ in
     ]))
     silicon.pipenv
 
+    # go
+    # (silicon.go_1_17.overrideDerivation (oldAttrs: {
+    #   buildInputs = oldAttrs.buildInputs ++ [ makeWrapper ];
+    #   postConfigure = oldAttrs.postConfigure + "export GOROOT_FINAL=$out/share/go17";
+    #   postInstall = ''
+    #     export GOPATH=${home_dir}/.local/share/go/17
+    #     export GOBIN=${home_dir}/.local/bin
+    #     wrapProgram $out/bin/go \ --set GOPATH $GOPATH --set GOBIN $GOBIN
+    #     # for file in $(ls $out/bin); do mv $out/bin/$file $out/bin/''${file}18; done
+    #   '';
+    # }))
+
+    # preview go version
+    (silicon.go_1_18.overrideDerivation (oldAttrs: {
+      buildInputs = oldAttrs.buildInputs ++ [ makeWrapper ];
+      postConfigure = oldAttrs.postConfigure + "export GOROOT_FINAL=$out/share/go18";
+      postInstall = ''
+        export GOPATH=${home_dir}/.local/share/go/18
+        export GOBIN=${home_dir}/.local/bin
+        wrapProgram $out/bin/go \
+                     --set GOPATH $GOPATH \
+                     --set GOBIN $GOBIN
+        for file in $(ls $out/bin); do mv $out/bin/$file $out/bin/''${file}18; done
+      '';
+    }))
+
     # go tools
     silicon.gofumpt
     silicon.gopls # see overlay
     silicon.delve
-    silicon.golangci-lint
-    silicon.go2nix
-    silicon.vgo2nix
+    stable.golangci-lint
     # exclude bundle
     (silicon.gotools.overrideDerivation (oldAttrs: {
       excludedPackages = oldAttrs.excludedPackages ++ ["bundle"];
@@ -114,7 +137,7 @@ in
   # Go Env
   programs.go = {
     enable = true;
-    goPath = "go";
+    goPath = ".local/share/go/17";
     goBin = ".local/bin";
     package = pkgs.silicon.go_1_17;
   };

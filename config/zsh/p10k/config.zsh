@@ -40,7 +40,6 @@
   local cyan='6'
   local white='7'
 
-
   function prompt_my_nixshell() {
       if [ "$name" = "nix-shell" ]; then
           p10k segment -f magenta -i '🥷' -t "<${name}>"
@@ -48,9 +47,7 @@
   }
 
   function prompt_my_arch() {
-      if [ "$(arch)" != "$(uname -p)" ]; then
-          p10k segment -f megenta -t "$(arch)"
-      fi
+      p10k segment -f megenta -t "$(arch)"
   }
 
   function p10k-on-pre-prompt() {
@@ -90,6 +87,9 @@
   typeset -g POWERLEVEL9K_RIGHT_PROMPT_FIRST_SEGMENT_START_SYMBOL=' '
   typeset -g POWERLEVEL9K_EMPTY_LINE_LEFT_PROMPT_FIRST_SEGMENT_END_SYMBOL='%{%}'
   typeset -g POWERLEVEL9K_EMPTY_LINE_RIGHT_PROMPT_FIRST_SEGMENT_START_SYMBOL='%{%}'
+
+  # time
+  typeset -g POWERLEVEL9K_TIME_FOREGROUND=$magenta
 
   # Basic style options that define the overall prompt look.
   typeset -g POWERLEVEL9K_BACKGROUND=                            # transparent background

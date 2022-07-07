@@ -11,6 +11,15 @@ let
     export TERM=xterm-emacs
     ${pkgs.emacsGcc}/bin/emacs $@
   '';
+
+  # brew
+  brew = pkgs.writeShellScriptBin "brew" ''
+      if [ "$(arch)" = "i386" ] && [ -f /usr/local/bin/brew ]; then
+         arch -x86_64 /usr/local/bin/brew $@
+      elif [ -f /opt/homebrew/bin/brew ]; then # arm64 only
+         arch -arm64 /opt/homebrew/bin/brew $@
+      fi
+  '';
 in
 {
   programs.tmux = {
@@ -67,12 +76,32 @@ in
       }
     ];
 
-    initExtraFirst = ''
-    # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-    if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
-      source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
-    fi
-    '';
+    initExtraFirst = let
+      linux = ''
+      # -- linux specific config
+      # -- linux end
+      '';
+
+      darwin = ''
+      # -- darwin specific config
+      if ! (( $+commands[nix] )) ; then
+              source $HOME/.nix-profile/etc/profile.d/nix.sh;
+      fi
+      # -- darwin end
+      '';
+
+      default = ''
+      # -- default config
+      # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+      if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
+        source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
+      fi
+      # -- default config end
+      '';
+      block = [default]
+       ++ lib.optionals pkgs.stdenv.isDarwin [darwin]
+       ++ lib.optionals pkgs.stdenv.isLinux [linux];
+    in lib.concatStringsSep "\n" block;
 
     initExtra = let
       linux = ''
@@ -82,6 +111,14 @@ in
 
       darwin = ''
       # -- darwin specific config
+      [ -d "$HOME/Library/Android/sdk" ] && export ANDROID_HOME=$HOME/Library/Android/sdk
+
+      # eval brew env
+      if [ "$(arch)" = "i386" ] && [ -f /usr/local/bin/brew ]; then
+         eval $(/usr/local/bin/brew shellenv)
+      elif [ -f /opt/homebrew/bin/brew ]; then # arm64 only
+         eval $(/opt/homebrew/bin/brew shellenv)
+      fi
       # -- darwin end
       '';
 
@@ -90,8 +127,12 @@ in
 
       # @HOTFIX: set path to local/bin when on i386
       if [ "$(arch)" = "i386" ]; then
-         export PATH="/usr/local/bin:$PATH"
          export PATH="/usr/local/opt/openjdk@8/bin:$PATH" # brew java
+      fi
+
+      # project
+      if  (( $+commands[project] )) ; then
+        eval "$(project -debug=false init zsh)" || echo "`project` not found";
       fi
 
       # bindkey
@@ -153,6 +194,9 @@ in
       ll = "ls -lhmbgUFH --git --icons";
       lla = "ll -a";
 
+      # brew
+      brew = "${brew}/bin/brew";
+
       # nix
       config = "make -C ${config.home.homeDirectory}/nixpkgs";
 
@@ -160,6 +204,9 @@ in
       emacs = "${xterm-emacs}/bin/xemacs";
       emacsclient = "${xterm-emacsclient}/bin/xemacsclient";
       ec = "${xterm-emacsclient}/bin/xemacsclient -nw";
+
+      # # lang other version
+      # go18 = "${silicon.go_1_18}/bin/go";
     };
   };
 }

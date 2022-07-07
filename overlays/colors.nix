@@ -3,7 +3,7 @@ final: prev: {
         colors =  {
             material-colors = {
                 # black
-                black0 = "546d79";
+                black0 = "263137";
                 black1 = "b0bec4";
                 # red
                 red0 = "ff5151";
