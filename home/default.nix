@@ -44,6 +44,8 @@ in
     silicon.curl # transfer a URL
     silicon.wget # The non-interactive network downloader.
 
+    myloon
+
     # stable
     stable.procs # fancy version of `ps`
 
@@ -81,32 +83,6 @@ in
     ]))
     silicon.pipenv
 
-    # go
-    # (silicon.go_1_17.overrideDerivation (oldAttrs: {
-    #   buildInputs = oldAttrs.buildInputs ++ [ makeWrapper ];
-    #   postConfigure = oldAttrs.postConfigure + "export GOROOT_FINAL=$out/share/go17";
-    #   postInstall = ''
-    #     export GOPATH=${home_dir}/.local/share/go/17
-    #     export GOBIN=${home_dir}/.local/bin
-    #     wrapProgram $out/bin/go \ --set GOPATH $GOPATH --set GOBIN $GOBIN
-    #     # for file in $(ls $out/bin); do mv $out/bin/$file $out/bin/''${file}18; done
-    #   '';
-    # }))
-
-    # preview go version
-    (silicon.go_1_18.overrideDerivation (oldAttrs: {
-      buildInputs = oldAttrs.buildInputs ++ [ makeWrapper ];
-      postConfigure = oldAttrs.postConfigure + "export GOROOT_FINAL=$out/share/go18";
-      postInstall = ''
-        export GOPATH=${home_dir}/.local/share/go/18
-        export GOBIN=${home_dir}/.local/bin
-        wrapProgram $out/bin/go \
-                     --set GOPATH $GOPATH \
-                     --set GOBIN $GOBIN
-        for file in $(ls $out/bin); do mv $out/bin/$file $out/bin/''${file}18; done
-      '';
-    }))
-
     # go tools
     silicon.gofumpt
     silicon.gopls # see overlay
@@ -137,9 +113,9 @@ in
   # Go Env
   programs.go = {
     enable = true;
-    goPath = ".local/share/go/17";
+    goPath = ".local/share/go/18";
     goBin = ".local/bin";
-    package = pkgs.silicon.go_1_17;
+    package = pkgs.silicon.go_1_18;
   };
 
   # Additional Path
