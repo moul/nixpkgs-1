@@ -135,6 +135,9 @@ in
         eval "$(project -debug=false init zsh)" || echo "`project` not found";
       fi
 
+      # asdf
+      . ${pkgs.silicon.asdf-vm}/share/asdf-vm/asdf.sh
+
       # bindkey
       bindkey "\e[1;3D" backward-word # left word
       bindkey "\e[1;3C" forward-word # right word
@@ -147,14 +150,13 @@ in
       zstyle ':completion:*' list-colors ''${(s.:.)LS_COLORS}
 
       ## fzf tab
-
       # cat
       zstyle ':fzf-tab:complete:(cat|bat):*' fzf-preview '\
-             ([ -f $realpath ] && ${pkgs.bat}/bin/bat --color=always --style=header,grid --line-range :500 $realpath) \
-              || ${pkgs.exa}/bin/exa --color=always --tree --level=1 $realpath'
+             ([ -f $realpath ] && ${pkgs.silicon.bat}/bin/bat --color=always --style=header,grid --line-range :500 $realpath) \
+              || ${pkgs.silicon.exa}/bin/exa --color=always --tree --level=1 $realpath'
 
       # ls
-      zstyle ':fzf-tab:complete:cd:*' fzf-preview '${pkgs.exa}/bin/exa --color=always --tree --level=1 $realpath'
+      zstyle ':fzf-tab:complete:cd:*' fzf-preview '${pkgs.silicon.exa}/bin/exa --color=always --tree --level=1 $realpath'
 
       # ps/kill
       # give a preview of commandline arguments when completing `kill`

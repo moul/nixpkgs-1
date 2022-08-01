@@ -43,6 +43,7 @@ in
     silicon.ripgrep # better version of grep
     silicon.curl # transfer a URL
     silicon.wget # The non-interactive network downloader.
+    silicon.asdf-vm
 
     myloon
 

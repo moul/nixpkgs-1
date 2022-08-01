@@ -77,7 +77,7 @@
 
   # Right prompt segments.
   typeset -g POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(
-      command_execution_time go_version
+      command_execution_time asdf
   )
 
   # other
@@ -279,7 +279,7 @@
   #
   # Note: If this parameter is set to (shell local global), it won't hide tools.
   # Tip:  Override this parameter for ${TOOL} with POWERLEVEL9K_ASDF_${TOOL}_SOURCES.
-  typeset -g POWERLEVEL9K_ASDF_SOURCES=(shell local global)
+  typeset -g POWERLEVEL9K_ASDF_SOURCES=(shell local)
 
   # If set to false, hide tool versions that are the same as global.
   #
