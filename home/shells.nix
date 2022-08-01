@@ -44,30 +44,60 @@ in
   programs.zsh = {
     enable = true;
     dotDir = ".config/zsh";
-
-    # plugins
-    antibody = {
+    prezto = {
       enable = true;
-      package = pkgs.silicon.antibody;
-      plugins = [
-        # zsh completions
-        "${pkgs.zsh-plugins.fzf-tab}"
+      prompt.theme = "powerlevel10k";
 
-        # themes
-        # powerline10k
-        "${pkgs.zsh-plugins.powerlevel10k}"
-        "${pkgs.zsh-plugins.fast-syntax-highlighting}"
+      # Case insensitive completion
+      caseSensitive = false;
+
+      # Autoconvert .... to ../..
+      editor.dotExpansion = true;
+
+      # Prezto modules to load
+      pmodules = [
+        "environment"
+        "terminal"
+        "editor"
+        "history"
+        "directory"
+        "spectrum"
+        "utility"
+        "completion"
+        "prompt"
+      ] ++ lib.optionals pkgs.stdenv.isDarwin [
+        "osx"
       ];
-      configPlugins = ''
-        fast-theme -q default
-      '';
+
+      terminal.autoTitle = true;
     };
 
-    # enable completion
-    enableCompletion = true;
-    enableAutosuggestions = true;
-
     plugins = [
+      {
+        name = "fast-syntax-highlighting";
+        file = "fast-syntax-highlighting.plugin.zsh";
+        src = "${pkgs.zsh-plugins.fast-syntax-highlighting}";
+      }
+      {
+        name = "zsh-abbrev-alias";
+        file = "abbrev-alias.plugin.zsh";
+        src = "${pkgs.zsh-plugins.zsh-abbrev-alias}";
+      }
+      {
+        name = "zsh-colored-man-pages";
+        file = "colored-man-pages.plugin.zsh";
+        src = "${pkgs.zsh-plugins.zsh-colored-man-pages}";
+      }
+      {
+        name = "fzf-tab";
+        file = "fzf-tab.plugin.zsh";
+        src = "${pkgs.zsh-plugins.fzf-tab}";
+      }
+      {
+        name = "powerlevel10k";
+        file = "powerlevel10k.plugin.zsh";
+        src = "${pkgs.zsh-plugins.powerlevel10k}";
+      }
       {
         # add powerline10 custom config
         name = "p10k-config";
@@ -75,6 +105,10 @@ in
         file = "config.zsh";
       }
     ];
+
+    # enable completion
+    enableCompletion = true;
+    enableAutosuggestions = true;
 
     initExtraFirst = let
       linux = ''
@@ -135,6 +169,12 @@ in
         eval "$(project -debug=false init zsh)" || echo "`project` not found";
       fi
 
+      # zsh highlight color
+      fast-theme -q default
+
+      # highlight
+      # ${pkgs.zsh-plugins.fast-syntax-highlighting}
+
       # asdf
       . ${pkgs.silicon.asdf-vm}/share/asdf-vm/asdf.sh
 
@@ -144,7 +184,6 @@ in
 
       ## extra z config
 
-      # Do menu-driven completion.
       zstyle ":completion:*:git-checkout:*" sort false
       zstyle ':completion:*:descriptions' format '[%d]'
       zstyle ':completion:*' list-colors ''${(s.:.)LS_COLORS}
@@ -164,6 +203,8 @@ in
       zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-preview '[[ $group == "[process ID]" ]] && ps --pid=$word -o cmd --no-headers -w -w'
       zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-flags --preview-window=down:3:wrap
 
+
+      # Do menu-driven completion.
       # -- default end
       '';
 
@@ -206,9 +247,6 @@ in
       emacs = "${xterm-emacs}/bin/xemacs";
       emacsclient = "${xterm-emacsclient}/bin/xemacsclient";
       ec = "${xterm-emacsclient}/bin/xemacsclient -nw";
-
-      # # lang other version
-      # go18 = "${silicon.go_1_18}/bin/go";
     };
   };
 }

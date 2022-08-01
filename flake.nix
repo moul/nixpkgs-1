@@ -17,10 +17,6 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    android-nixpkgs = {
-      inputs.nixpkgs.follows = "nixpkgs";
-      url = "github:tadfisher/android-nixpkgs";
-    };
 
     # emacs
     spacemacs = { url = "github:syl20bnr/spacemacs/develop"; flake = false; };
@@ -29,16 +25,21 @@
     # zsh_plugins
     fast-syntax-highlighting = { url = "github:zdharma-continuum/fast-syntax-highlighting"; flake = false; };
     fzf-tab = { url = "github:Aloxaf/fzf-tab"; flake = false; };
+    zsh-abbrev-alias = { url = "github:momo-lab/zsh-abbrev-alias"; flake = false; };
+    zsh-colored-man-pages = {url = "github:ael-code/zsh-colored-man-pages"; flake = false; };
     powerlevel10k = { url = "github:romkatv/powerlevel10k"; flake = false; };
+
+    forgit.url = "github:wfxr/forgit";
+    forgit.flake = false;
+
   };
 
-  outputs = { self, nixpkgs, darwin, home-manager, flake-utils, emacs-overlay, android-nixpkgs, ... }@inputs:
+  outputs = { self, nixpkgs, darwin, home-manager, flake-utils, emacs-overlay, ... }@inputs:
     let
       defaultSystems = flake-utils.lib.defaultSystems;
       nixpkgsConfig = { system }: with inputs; {
         config = {
           allowUnfree = true;
-          android_sdk.accept_license = true;
         };
         overlays = self.overlays ++ [
           (
@@ -62,8 +63,6 @@
             misc.truecolor
             programs.mykitty
             programs.kitty.extras
-            programs.zsh.antibody
-            android-nixpkgs.hmModule
           ];
       };
 
@@ -73,8 +72,6 @@
           misc.truecolor
           programs.mykitty
           programs.kitty.extras
-          programs.zsh.antibody
-          android-nixpkgs.hmModule
           ./linux
         ];
       };
@@ -154,11 +151,9 @@
         misc.truecolor = import ./home/modules/misc/truecolor.nix;
         programs.kitty.extras = import ./home/modules/programs/kitty/extras.nix;
         programs.mykitty = import ./home/modules/programs/kitty;
-        programs.zsh.antibody = import ./home/modules/programs/antibody.nix;
       };
 
       overlays = with inputs; [
-        (android-nixpkgs.overlay)
         (
           final: prev: {
             # pkgs
@@ -173,15 +168,14 @@
                        else "";
             });
 
-            # inputs
-            android-sdk = (import android-nixpkgs) { inherit pkgs; };
-
             # stable release (usually package here are broken upstream)
             cachix = final.stable.cachix;
 
             # zsh plugins
             zsh-plugins.fast-syntax-highlighting = inputs.fast-syntax-highlighting;
             zsh-plugins.fzf-tab = inputs.fzf-tab;
+            zsh-plugins.zsh-abbrev-alias = inputs.fzf-tab;
+            zsh-plugins.zsh-colored-man-pages = zsh-colored-man-pages;
             zsh-plugins.powerlevel10k = inputs.powerlevel10k;
           }
         )

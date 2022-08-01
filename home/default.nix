@@ -57,9 +57,6 @@ in
     silicon.aspellDicts.en-computers
     silicon.aspellDicts.en-science
 
-    # antibody
-    silicon.antibody
-
     # rustc
     silicon.rustc
     silicon.cargo
