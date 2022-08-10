@@ -32,72 +32,44 @@ in
       bind % split-window -h -c "#{pane_current_path}"
     '';
   };
-
   # fzf - a command-line fuzzy finder.
   programs.fzf = {
     enable = true;
     enableBashIntegration = true;
-    enableZshIntegration = true;
+    enableZshIntegration = false;
   };
 
   # ZSH
   programs.zsh = {
     enable = true;
     dotDir = ".config/zsh";
-    prezto = {
+    zi = {
       enable = true;
-      prompt.theme = "powerlevel10k";
+      debug = true;
+      bin = "${pkgs.zsh-plugins.zi}";
+      home = "${config.xdg.configHome}/zi";
+      config = ''
+        zi ice depth"1"; zi light romkatv/powerlevel10k
 
-      # Case insensitive completion
-      caseSensitive = false;
+        zi light z-shell/zui
 
-      # Autoconvert .... to ../..
-      editor.dotExpansion = true;
+        # fzf tab
+        zi light Aloxaf/fzf-tab
 
-      # Prezto modules to load
-      pmodules = [
-        "environment"
-        "terminal"
-        "editor"
-        "history"
-        "directory"
-        "spectrum"
-        "utility"
-        "completion"
-        "prompt"
-      ] ++ lib.optionals pkgs.stdenv.isDarwin [
-        "osx"
-      ];
+        # zzcomplete
+        zi light z-shell/zzcomplete
 
-      terminal.autoTitle = true;
+        # tab title
+        zi wait lucid for trystan2k/zsh-tab-title
+
+        # completion
+        zi wait lucid for atload"fast-theme -q default" atinit"ZI[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" z-shell/F-Sy-H
+        zi wait lucid for blockf zsh-users/zsh-completions
+        zi wait lucid for atload"!_zsh_autosuggest_start" zsh-users/zsh-autosuggestions
+      '';
     };
 
     plugins = [
-      {
-        name = "fast-syntax-highlighting";
-        file = "fast-syntax-highlighting.plugin.zsh";
-        src = "${pkgs.zsh-plugins.fast-syntax-highlighting}";
-      }
-      {
-        name = "zsh-abbrev-alias";
-        file = "abbrev-alias.plugin.zsh";
-        src = "${pkgs.zsh-plugins.zsh-abbrev-alias}";
-      }
-      {
-        name = "zsh-colored-man-pages";
-        file = "colored-man-pages.plugin.zsh";
-        src = "${pkgs.zsh-plugins.zsh-colored-man-pages}";
-      }
-      {
-        name = "fzf-tab";
-        file = "fzf-tab.plugin.zsh";
-        src = "${pkgs.zsh-plugins.fzf-tab}";
-      }
-      {
-        name = "powerlevel10k";
-        file = "powerlevel10k.plugin.zsh";
-        src = "${pkgs.zsh-plugins.powerlevel10k}";
-      }
       {
         # add powerline10 custom config
         name = "p10k-config";
@@ -118,9 +90,6 @@ in
 
       darwin = ''
       # -- darwin specific config
-      if ! (( $+commands[nix] )) ; then
-              source $HOME/.nix-profile/etc/profile.d/nix.sh;
-      fi
       # -- darwin end
       '';
 
@@ -145,7 +114,7 @@ in
 
       darwin = ''
       # -- darwin specific config
-      [ -d "$HOME/Library/Android/sdk" ] && export ANDROID_HOME=$HOME/Library/Android/sdk
+      # [ -d "$HOME/Library/Android/sdk" ] && export ANDROID_HOME=$HOME/Library/Android/sdk
 
       # eval brew env
       if [ "$(arch)" = "i386" ] && [ -f /usr/local/bin/brew ]; then
@@ -158,25 +127,22 @@ in
 
       default = ''
       # -- default config
-
       # @HOTFIX: set path to local/bin when on i386
       if [ "$(arch)" = "i386" ]; then
          export PATH="/usr/local/opt/openjdk@8/bin:$PATH" # brew java
       fi
 
       # project
-      if  (( $+commands[project] )) ; then
-        eval "$(project -debug=false init zsh)" || echo "`project` not found";
-      fi
-
-      # zsh highlight color
-      fast-theme -q default
-
-      # highlight
-      # ${pkgs.zsh-plugins.fast-syntax-highlighting}
+      # if  (( $+commands[project] )) ; then
+      #   eval "$(project -debug=false init zsh)" || echo "`project` not found";
+      # fi
 
       # asdf
       . ${pkgs.silicon.asdf-vm}/share/asdf-vm/asdf.sh
+
+      # tab-title
+      export ZSH_TAB_TITLE_ONLY_FOLDER=true
+      export ZSH_TAB_TITLE_ADDITIONAL_TERMS='iterm|kitty'
 
       # bindkey
       bindkey "\e[1;3D" backward-word # left word
@@ -203,8 +169,6 @@ in
       zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-preview '[[ $group == "[process ID]" ]] && ps --pid=$word -o cmd --no-headers -w -w'
       zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-flags --preview-window=down:3:wrap
 
-
-      # Do menu-driven completion.
       # -- default end
       '';
 

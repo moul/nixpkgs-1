@@ -263,6 +263,7 @@
         "nixpkgs-stable-darwin": "nixpkgs-stable-darwin",
         "powerlevel10k": "powerlevel10k",
         "spacemacs": "spacemacs",
+        "zi": "zi",
         "zsh-abbrev-alias": "zsh-abbrev-alias",
         "zsh-colored-man-pages": "zsh-colored-man-pages"
       }
@@ -281,6 +282,22 @@
         "owner": "syl20bnr",
         "ref": "develop",
         "repo": "spacemacs",
+        "type": "github"
+      }
+    },
+    "zi": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1657995340,
+        "narHash": "sha256-w2M1sZqjy07s/ZlPR9TdpmR5yLcDVcdAZPLHt4h7DXM=",
+        "owner": "z-shell",
+        "repo": "zi",
+        "rev": "6817af2199fb0a2dada5d941b598fff1cea2f6a9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "z-shell",
+        "repo": "zi",
         "type": "github"
       }
     },

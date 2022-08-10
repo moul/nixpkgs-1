@@ -23,11 +23,13 @@
     emacs-overlay =  { url = "github:nix-community/emacs-overlay"; };
 
     # zsh_plugins
+    zi = { url = "github:z-shell/zi"; flake = false; };
     fast-syntax-highlighting = { url = "github:zdharma-continuum/fast-syntax-highlighting"; flake = false; };
     fzf-tab = { url = "github:Aloxaf/fzf-tab"; flake = false; };
     zsh-abbrev-alias = { url = "github:momo-lab/zsh-abbrev-alias"; flake = false; };
     zsh-colored-man-pages = {url = "github:ael-code/zsh-colored-man-pages"; flake = false; };
     powerlevel10k = { url = "github:romkatv/powerlevel10k"; flake = false; };
+
 
     forgit.url = "github:wfxr/forgit";
     forgit.flake = false;
@@ -62,6 +64,7 @@
             ./home
             misc.truecolor
             programs.mykitty
+            programs.zsh.zi
             programs.kitty.extras
           ];
       };
@@ -71,6 +74,7 @@
           ./home
           misc.truecolor
           programs.mykitty
+          programs.zsh.zi
           programs.kitty.extras
           ./linux
         ];
@@ -151,6 +155,7 @@
         misc.truecolor = import ./home/modules/misc/truecolor.nix;
         programs.kitty.extras = import ./home/modules/programs/kitty/extras.nix;
         programs.mykitty = import ./home/modules/programs/kitty;
+        programs.zsh.zi = import ./home/modules/programs/zi;
       };
 
       overlays = with inputs; [
@@ -177,6 +182,7 @@
             zsh-plugins.zsh-abbrev-alias = inputs.fzf-tab;
             zsh-plugins.zsh-colored-man-pages = zsh-colored-man-pages;
             zsh-plugins.powerlevel10k = inputs.powerlevel10k;
+            zsh-plugins.zi = inputs.zi;
           }
         )
         # Other overlays that don't depend on flake inputs.
