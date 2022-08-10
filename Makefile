@@ -39,8 +39,16 @@ switch.cloud:
 
 endif # end linux
 
-gc:
+clean:
 	./result/sw/bin/nix-collect-garbage
+
+fclean:
+	@echo "/!\ require to be root"
+	sudo ./result/sw/bin/nix-env -p /nix/var/nix/profiles/system --delete-generations old
+	./result/sw/bin/nix-collect-garbage -d
+# Remove entries from /boot/loader/entries:
+	sudo bash -c "cd /boot/loader/entries; ls | grep -v <current-generation-name> | xargs rm"
+
 
 fast-update: update.nix update.zsh update.misc # fast update ignore emacs update
 update: update.nix update.emacs update.spacemacs update.zsh update.misc
