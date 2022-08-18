@@ -22,6 +22,24 @@ in
 
   programs.home-manager.enable = true;
 
+  programs.myasdf = {
+    enable = true;
+    package = pkgs.silicon.asdf-vm;
+    pluginsRepository = pkgs.asdf-plugins;
+    plugins = [
+      "golangci-lint"
+      "golang"
+      "python"
+    ];
+    tools = with pkgs; [
+      { name = "golang"; version = "system"; }
+      { name = "python"; version = "system";}
+      { name = "ruby"; version = "system"; }
+
+      { name = "golangci-lint"; version = "latest"; }
+    ];
+  };
+
   home.packages = with pkgs; [
     # Some basics
     mosh # wrapper for `ssh` that better and not dropping connections
@@ -174,22 +192,26 @@ in
   # https://rycee.gitlab.io/home-manager/options.html#opt-programs.zoxide.enable
   programs.zoxide.enable = true;
 
+  ## home dot D
   # emacs
   home.file.".emacs.d" = {
    source = pkgs.spacemacs;
    recursive = true;
   };
 
+  # spacemacs
   home.file.".spacemacs.d" = {
    source = spacemacsd;
    recursive = true;
   };
 
+  # btop
   home.file."/.config/btop" = {
    source = btopd;
    recursive = true;
   };
 
+  #npmrc
   home.file.".npmrc" = with pkgs; {
     source = writeText "npmrc" ''
     prefix=${config.xdg.dataHome}/node_modules

@@ -23,7 +23,7 @@ switch.bot: result/sw/bin/darwin-rebuild
 	./result/sw/bin/darwin-rebuild switch --verbose --flake .#bot
 
 result/sw/bin/darwin-rebuild:
-	nix build .#darwinConfigurations.bootstrap.system
+	NIXPKGS_ALLOW_UNFREE=1 nix build .#darwinConfigurations.bootstrap.system
 
 endif # end osx
 

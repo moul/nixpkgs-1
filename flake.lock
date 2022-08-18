@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "asdf-plugins": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1660441240,
+        "narHash": "sha256-fn8meK63ozO0dqOhd6xSPZbB0VxQDcvV1XSTUwOruwM=",
+        "owner": "asdf-vm",
+        "repo": "asdf-plugins",
+        "rev": "5a48608f7640db3f25c90b7f53bd79e8ec951420",
+        "type": "github"
+      },
+      "original": {
+        "owner": "asdf-vm",
+        "repo": "asdf-plugins",
+        "type": "github"
+      }
+    },
     "darwin": {
       "inputs": {
         "nixpkgs": [
@@ -249,6 +265,7 @@
     },
     "root": {
       "inputs": {
+        "asdf-plugins": "asdf-plugins",
         "darwin": "darwin",
         "emacs-overlay": "emacs-overlay",
         "fast-syntax-highlighting": "fast-syntax-highlighting",
