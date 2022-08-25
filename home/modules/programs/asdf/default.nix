@@ -48,16 +48,6 @@ in {
       description = "The asdf package to use.";
     };
 
-    plugins = mkOption {
-      type = types.listOf types.str;
-      default = [
-        "golang"
-        "ruby"
-        "python"
-      ];
-      description = "list of asdf plugins";
-    };
-
     pluginsRepository = mkOption {
       type = types.package;
       default = "";
@@ -120,11 +110,14 @@ in {
 
           [ -z "${cfg.pluginsRepository}" ] || ln -s ${cfg.pluginsRepository} $ASDF_DATA_DIR/repository
 
-          ${tool.preInstall}
           asdf plugin add ${tool.name}
-          asdf install ${tool.name} ${tool.version}
-          asdf reshim ${tool.name} ${tool.version}
-          ${tool.postInstall}
+
+          if [ -z "${tool.version}" ]; then
+             ${tool.preInstall}
+             asdf install ${tool.name} ${tool.version}
+             asdf reshim ${tool.name} ${tool.version}
+             ${tool.postInstall}
+          fi
 
           cd $ASDF_DATA_DIR && rm -rf tmp downloads
          '') cfg.tools;
@@ -148,7 +141,14 @@ in {
         }) asdf-install)
         ++ [
           { name = ".tool-versions"; value.source = asdf-tools; }
-          { name = "${cfg.asdfdir}/asdf_updates_disabled"; value.text = "";}
+          { name = "${cfg.asdfdir}/asdf_updates_disabled"; value.text = ""; }
+          {
+            name = "${cfg.asdfdir}/repository";
+            value = {
+              source = cfg.pluginsRepository;
+              recursive = true;
+            };
+          }
         ]);
 
       xdg.configFile."asdf/asdfrc".source = asdf-config;

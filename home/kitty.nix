@@ -102,7 +102,7 @@ in
       active_tab_font_style = "bold";
       inactive_tab_font_style = "normal";
 
-      enabled_layouts = "splits";
+      enabled_layouts = "horizontal,grid,splits";
       enable_audio_bell = "no";
       bell_on_tab = "no";
 
@@ -114,6 +114,8 @@ in
       "cmd+t" = "new_tab_with_cwd";
 
       # open new split (window) with cmd+d retaining the cwd
+      "kitty_mod+l" = "next_layout";
+
       "cmd+d" = "launch --cwd=current --location=vsplit";
       "cmd+shift+d" = "launch --cwd=current --location=hsplit";
 
@@ -157,7 +159,6 @@ in
       "kitty_mod+o" = "launch --cwd=current --type=overlay ${xterm-emacsclient}/bin/xemacs -t .";
       "kitty_mod+e" = "launch --cwd=current --location=hsplit ${xterm-emacsclient}/bin/xemacs -t .";
       "kitty_mod+d" = "launch --cwd=current --location=vsplit  ${xterm-emacsclient}/bin/xemacs -t .";
-
     };
   };
 
