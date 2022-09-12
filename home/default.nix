@@ -67,6 +67,7 @@ in
     silicon.curl # transfer a URL
     silicon.wget # The non-interactive network downloader.
     silicon.asdf-vm
+    silicon.entr
 
     myloon
 
